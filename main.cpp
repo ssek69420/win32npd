@@ -15,7 +15,6 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE hprevinst, LPTSTR cmdline, int cm
     windowclass.style = 0;
     windowclass.lpfnWndProc = winprocedure;
     windowclass.cbClsExtra = 0;
-    windowclass.cbClsExtra = 0;
     windowclass.hInstance = hinst;
     windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     windowclass.hCursor = LoadCursor(NULL, IDC_ARROW);
