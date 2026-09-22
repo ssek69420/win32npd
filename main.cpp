@@ -14,7 +14,7 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
                 WS_EX_CLIENTEDGE,
                 TEXT("EDIT"),
                 TEXT("NOTEPAD"),
-                WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_AUTOHSCROLL,
+                WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
                 20, 20, 1280, 720,
                 hwnd,
                 NULL,
