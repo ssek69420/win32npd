@@ -1,8 +1,24 @@
 #define UNICODE
 
 #include <windows.h>
+#include <CommCtrl.h>
 
 const TCHAR CLASSNAME[] = TEXT("window");
+
+LRESULT CALLBACK EditWProcedure(
+    HWND hwnd,
+    UINT wm,
+    WPARAM wp,
+    LPARAM lp,
+    UINT_PTR uIdSubclass,
+    DWORD_PTR dwRefData
+)
+{
+    if(wm == WM_KEYDOWN && wp == 'A' && (GetKeyState(VK_CONTROL) & 0x8000)){
+        SendMessage(hwnd, EM_SETSEL, 0, -1);
+    }
+    return DefSubclassProc(hwnd, wm, wp, lp);
+}
 
 LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
 {
@@ -21,6 +37,7 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
                 ((LPCREATESTRUCT)lp)->hInstance,
                 NULL
             );
+            SetWindowSubclass(edit, EditWProcedure, 0, 0);
             return 0;
             case WM_DESTROY:
                 PostQuitMessage(0);

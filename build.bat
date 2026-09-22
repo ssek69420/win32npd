@@ -5,6 +5,7 @@ call "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\VsDevC
 cl /nologo /W4 /EHsc /std:c++17 /Zi /Od main.cpp ^
     /link user32.lib ^
     /link gdi32.lib ^
+    /link Comctl32.lib ^
     /SUBSYSTEM:WINDOWS ^
     /DEBUG ^
     /OUT:.\main.exe
