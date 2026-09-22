@@ -4,7 +4,30 @@
 
 const TCHAR CLASSNAME[] = TEXT("window");
 
-LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp);
+LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
+{
+    static HWND edit;
+    switch(wm)
+    {
+        case WM_CREATE:
+            edit = CreateWindowEx(
+                WS_EX_CLIENTEDGE,
+                TEXT("EDIT"),
+                TEXT("NOTEPAD"),
+                WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_AUTOHSCROLL,
+                20, 20, 1280, 720,
+                hwnd,
+                NULL,
+                ((LPCREATESTRUCT)lp)->hInstance,
+                NULL
+            );
+            return 0;
+            case WM_DESTROY:
+                PostQuitMessage(0);
+                return 0;
+    }
+    return DefWindowProc(hwnd, wm, wp, lp);
+};
 
 int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE hprevinst, LPTSTR cmdline, int cmdshow)
 {
@@ -45,8 +68,4 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE hprevinst, LPTSTR cmdline, int cm
         DispatchMessage(&msg);
     }
     return msg.wParam;
-}
-
-LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp){
-    return DefWindowProc(hwnd, wm, wp, lp);
 }
