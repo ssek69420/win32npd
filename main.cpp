@@ -76,6 +76,23 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
                         FILE_ATTRIBUTE_NORMAL,
                         NULL //no template for file
                     );
+                    
+                    int textLength = GetWindowTextLengthW(edit);
+                    wchar_t *text = new wchar_t [textLength+1];
+                    GetWindowTextW(
+                        edit,
+                        text,
+                        textLength + 1
+                    );
+                    DWORD bytesWritten;
+                    WriteFile(
+                        file,
+                        text,
+                        textLength *sizeof(wchar_t),
+                        &bytesWritten,
+                        NULL
+                    );
+                    CloseHandle(file);
                 }
             }
 
