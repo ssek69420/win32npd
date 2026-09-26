@@ -32,7 +32,7 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
             TEXT("EDIT"),
             TEXT("NOTEPAD"),
             WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
-            20, 20, 1280, 720,
+            20, 40, 1280, 720,
             hwnd,
             NULL,
             ((LPCREATESTRUCT)lp)->hInstance,
@@ -43,7 +43,9 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
             TEXT("BUTTON"),
             TEXT("Save"),
             WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-            0, 10, 80, 30,
+            20, 5, 
+            40, //w
+            26, //h
             hwnd,
             (HMENU)ID_SAVE,
             ((LPCREATESTRUCT)lp)->hInstance,
