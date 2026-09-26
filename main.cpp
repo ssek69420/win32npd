@@ -1,5 +1,5 @@
 #define UNICODE
-
+#define ID_SAVE 1001
 #include <windows.h>
 #include <CommCtrl.h>
 
@@ -23,20 +23,32 @@ LRESULT CALLBACK EditWProcedure(
 LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
 {
     static HWND edit;
+    static HWND save;
     switch(wm)
     {
         case WM_CREATE:
-            edit = CreateWindowEx(
-                WS_EX_CLIENTEDGE,
-                TEXT("EDIT"),
-                TEXT("NOTEPAD"),
-                WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
-                20, 20, 1280, 720,
-                hwnd,
-                NULL,
-                ((LPCREATESTRUCT)lp)->hInstance,
-                NULL
-            );
+        edit = CreateWindowEx(
+            WS_EX_CLIENTEDGE,
+            TEXT("EDIT"),
+            TEXT("NOTEPAD"),
+            WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
+            20, 20, 1280, 720,
+            hwnd,
+            NULL,
+            ((LPCREATESTRUCT)lp)->hInstance,
+            NULL
+        );
+        save = CreateWindowEx(
+            WS_EX_CLIENTEDGE,
+            TEXT("BUTTON"),
+            TEXT("Save"),
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            0, 10, 80, 30,
+            hwnd,
+            (HMENU)ID_SAVE,
+            ((LPCREATESTRUCT)lp)->hInstance,
+            NULL
+        );
             SetWindowSubclass(edit, EditWProcedure, 0, 0);
             return 0;
             case WM_DESTROY:
