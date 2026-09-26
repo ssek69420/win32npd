@@ -27,32 +27,62 @@ LRESULT CALLBACK winprocedure(HWND hwnd, UINT wm, WPARAM wp, LPARAM lp)
     switch(wm)
     {
         case WM_CREATE:
-        edit = CreateWindowEx(
-            WS_EX_CLIENTEDGE,
-            TEXT("EDIT"),
-            TEXT("NOTEPAD"),
-            WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
-            20, 40, 1280, 720,
-            hwnd,
-            NULL,
-            ((LPCREATESTRUCT)lp)->hInstance,
-            NULL
-        );
-        save = CreateWindowEx(
-            WS_EX_CLIENTEDGE,
-            TEXT("BUTTON"),
-            TEXT("Save"),
-            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-            20, 5, 
-            40, //w
-            26, //h
-            hwnd,
-            (HMENU)ID_SAVE,
-            ((LPCREATESTRUCT)lp)->hInstance,
-            NULL
-        );
-            SetWindowSubclass(edit, EditWProcedure, 0, 0);
+            edit = CreateWindowEx(
+                WS_EX_CLIENTEDGE,
+                TEXT("EDIT"),
+                TEXT("NOTEPAD"),
+                WS_CHILD | WS_BORDER | WS_VISIBLE | WS_EX_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN,
+                20, 40, 1280, 720,
+                hwnd,
+                NULL,
+                ((LPCREATESTRUCT)lp)->hInstance,
+                NULL
+            );
+            save = CreateWindowEx(
+                WS_EX_CLIENTEDGE,
+                TEXT("BUTTON"),
+                TEXT("Save"),
+                WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+                20, 5, 
+                40, //w
+                26, //h
+                hwnd,
+                (HMENU)ID_SAVE,
+                ((LPCREATESTRUCT)lp)->hInstance,
+                NULL
+            );
             return 0;
+        case WM_COMMAND:
+            if(LOWORD(wp) == ID_SAVE){
+                wchar_t filename_size[MAX_PATH] = L"";
+                OPENFILENAMEW openfilename = {0};
+                openfilename.lStructSize = sizeof(openfilename);
+                openfilename.lpstrFile = filename_size;
+                openfilename.hwndOwner = hwnd;
+                openfilename.nMaxFile = MAX_PATH;
+                openfilename.lpstrFilter = 
+                    L"Text Files (*.txt)\0*.txt\0"
+                    L"All Files (*.*)\0*.*\0";
+                openfilename.lpstrDefExt = L"txt";
+                openfilename.Flags = OFN_OVERWRITEPROMPT;
+                if(GetSaveFileName(&openfilename))
+                {
+                    HANDLE file = CreateFileW(
+                        openfilename.lpstrFile,
+                        GENERIC_WRITE, //normal write
+                        0, //don't share the file
+                        NULL, //default security attributes
+                        CREATE_ALWAYS, //always create/overwrite if any
+                        FILE_ATTRIBUTE_NORMAL,
+                        NULL //no template for file
+                    );
+                }
+            }
+
+            SetWindowSubclass(edit, EditWProcedure, 0, 0);
+
+            return 0;
+            
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;

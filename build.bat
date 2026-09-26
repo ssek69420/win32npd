@@ -6,6 +6,7 @@ cl /nologo /W4 /EHsc /std:c++17 /Zi /Od main.cpp ^
     /link user32.lib ^
     /link gdi32.lib ^
     /link Comctl32.lib ^
+    /link Comdlg32.lib ^
     /SUBSYSTEM:WINDOWS ^
     /DEBUG ^
     /OUT:.\main.exe
